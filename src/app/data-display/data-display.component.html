@@ -1,0 +1,88 @@
+<h1>{{title}}</h1>
+<div *ngIf="msg"><h2>{{ msg }}</h2></div>
+
+<div>
+  <button mat-raised-button (click)="query_data()">Query Data</button>
+</div>
+
+<div *ngIf="(countrySale | keyvalue)?.length">
+  <mat-form-field>
+    <label>Search Country</label>
+    <input matInput [(ngModel)]="search_country" placeholder="ex) China">
+  </mat-form-field>
+  <button mat-raised-button (click)="search()">View Detail</button>
+
+  <table>
+    <tbody>
+      <tr>
+        <td valign = top>
+          <table>
+            <thead>
+              <tr>
+                <th>Country</th>
+                <th>Total Sales</th>
+                <th>Average Sale</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let country of countrySale | keyvalue">
+                <td>{{country.key}} [{{country.value[0]}}]</td>
+                <td>{{country.value[1] | number}}</td>
+                <td>{{country.value[1]/country.value[0] | number:'0.0-2'}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+        <td valign = top>
+          <table>
+            <tbody>
+              <tbody>
+                <tr>
+                  <td style=" height:18vh; width:36vw">
+                    <div class="chart-wrapper">
+                      <canvas baseChart
+                      [datasets]="totalSalesData"
+                      [labels]="totalSalesLabel"
+                      [options]="totalSalesOptions"
+                      [plugins]="barChartPlugins"
+                      [legend]="barChartLegend"
+                      [chartType]="barChartType">Top 10 Total Sales
+                    </canvas>
+                    </div>
+                  </td>
+                </tr>
+                <tr style="height:20vh;">
+                  <td>
+                    <div class="chart-wrapper">
+                      <canvas baseChart
+                      [datasets]="salesCountData"
+                      [labels]="salesCountLabel"
+                      [options]="salesCountOptions"
+                      [plugins]="barChartPlugins"
+                      [legend]="barChartLegend"
+                      [chartType]="barChartType">
+                    </canvas>
+                    </div>
+                  </td>
+                </tr>
+                <tr style="height:20vh;">
+                  <td>
+                    <div class="chart-wrapper">
+                      <canvas baseChart
+                      [datasets]="avgSalesData"
+                      [labels]="avgSalesLabel"
+                      [options]="avgSalesOptions"
+                      [plugins]="barChartPlugins"
+                      [legend]="barChartLegend"
+                      [chartType]="barChartType">
+                    </canvas>
+                    </div>
+                  </td>
+                </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
